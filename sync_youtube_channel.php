@@ -43,7 +43,7 @@
 
   }
   
-  //get the 51-97 latest video (there is error occur because I only get 47 vidoes instead of 50)
+  //get the 51-97 latest video (there are 3 playlist include)
   $content = file_get_contents("https://www.googleapis.com/youtube/v3/search?pageToken=CDIQAA&key={$key}&channelId=UCWJ2lWNubArHWmf3FIHbfcQ&part=snippet,id&order=date&maxResults=50");
 
   $result  = json_decode($content);
@@ -52,9 +52,10 @@
   for ( $i = 0; $i < 50; $i++) {
       $video_title  = $result -> items[$i] -> snippet -> title;
       $thumbnail    = $result -> items[$i] -> snippet -> thumbnails -> default -> url;
-      $video_id     = $result -> items[$i] -> id -> videoId;
-
-      // print_r($video_id);
+      if (isset($result -> items[$i] -> id -> videoId)) {
+        $video_id     = $result -> items[$i] -> id -> videoId;
+      }
+      // print_r($i);
       // print_r($video_title);
       // print_r($thumbnail);
 
@@ -63,7 +64,6 @@
       if ($statement->execute([':video_id' => $video_id, ':video_title' => $video_title, ':thumbnail' => $thumbnail])) {
           
       } 
-
   }
 
    //get the last 3 videos to sum up for 100
