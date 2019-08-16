@@ -1,0 +1,50 @@
+<html>
+<head>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+
+<script>
+
+    $(function() {
+
+
+   var people = [];
+
+   $.getJSON('youtube_channel_json.php', function(data) {
+   		console.log(data[0]);
+      $.each(data, function(i, f) {
+       	if(i>0) {
+          var tblRow = "<tr>" + "<td>" + f.video_id + "</td>" +
+          "<td>" + f.video_title + "</td>" + "<td><a href='https://www.youtube.com/watch?v=" + f.video_id + "' target='_blank'><img src='" + f.thumbnail +"'/></a></td></tr>"
+          $(tblRow).appendTo("#userdata tbody");
+        } else {
+            var videoFrame = "<img src='" + f.profile_picture +"'/><br/><h2>" + f.name + "</h2><p>" + f.description + "</p>";
+            $(videoFrame).insertBefore("#userdata");
+        }
+     });
+
+   });
+
+});
+</script>
+</head>
+
+<body>
+
+<div class="wrapper">
+<div class="profile">
+   <table id= "userdata" border="2">
+  <thead>
+            <th>Video ID</th>
+            <th>Video Titile</th>
+            <th>Thumbnail</th>
+        </thead>
+      <tbody>
+
+       </tbody>
+   </table>
+
+</div>
+</div>
+
+</body>
+</html>
